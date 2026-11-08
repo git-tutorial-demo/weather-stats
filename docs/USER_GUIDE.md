@@ -7,7 +7,7 @@ day, rainy days and total rain. It prints a table and writes an HTML report.
 
 ## Requirements
 
-Python 3.10 or newer on Windows, macOS or Linux. No packages to install.
+Python 3.10 or newer on Windows, macOS or Linux. No packages to install: the standard library is enough.
 
 ## Install
 
