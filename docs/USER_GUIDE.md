@@ -45,3 +45,11 @@ The table appears in the terminal. The same numbers are saved in `output/report.
 - A **rainy day** has at least 1 mm of rain.
 - **Rain** is the total for the year, in millimetres.
 
+## Troubleshooting
+
+| Message | What to do |
+|---|---|
+| `No data yet: run  python get_data.py  first.` | Run `python get_data.py`, then try again |
+| `Unknown city: ...` | Use one of the cities that the message lists, spelt exactly as shown |
+| `--sort needs one of: ...` | Put one of the listed words after `--sort` |
+| `python: command not found` | Type `python3` instead (macOS, Linux) |
