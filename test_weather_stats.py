@@ -4,7 +4,7 @@
 """
 import unittest
 
-from weather_stats import report_html, sort_stats, summarise, table
+from weather_stats import report_html, resolve, sort_stats, summarise, table
 
 ROWS = [
     {"date": "2025-01-01", "city": "Testville", "t_min": -2.0, "t_max": 4.0, "rain_mm": 0.0},
@@ -40,6 +40,11 @@ class SortTest(unittest.TestCase):
         dry = [dict(r, rain_mm=0.0) for r in ROWS]
         stats = {"Dryville": summarise(dry), "Testville": summarise(ROWS)}
         self.assertEqual(list(sort_stats(stats, "rain")), ["Testville", "Dryville"])
+
+
+class ResolveTest(unittest.TestCase):
+    def test_city_names_match_in_any_case(self):
+        self.assertEqual(resolve(["mumbai", "LONDON", "Paris"], ["London", "Mumbai"]), (["Mumbai", "London"], ["Paris"]))
 
 
 if __name__ == "__main__":

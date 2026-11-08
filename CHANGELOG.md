@@ -3,6 +3,11 @@
 All notable changes to this project. Newest first. Versions follow `MAJOR.MINOR.PATCH`
 (semantic versioning: PATCH for fixes, MINOR for new features that break nothing, MAJOR for breaking changes).
 
+## [1.1.1] - 2026-11-21
+
+### Fixed
+- City names are accepted in any upper or lower case: `python weather_stats.py mumbai` works (#6).
+
 ## [1.1] - 2026-11-20
 
 ### Added

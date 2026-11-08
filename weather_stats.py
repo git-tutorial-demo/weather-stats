@@ -48,6 +48,13 @@ def summarise(rows):
     }
 
 
+def resolve(names, known):
+    """City names as the user typed them -> (names as in the data, names not found); any upper/lower case."""
+    by_lower = {k.lower(): k for k in known}
+    found = [by_lower[n.lower()] for n in names if n.lower() in by_lower]
+    return found, [n for n in names if n.lower() not in by_lower]
+
+
 def sort_stats(stats, key):
     """The same statistics, largest value of SORT_KEYS[key] first."""
     return dict(sorted(stats.items(), key=lambda item: item[1][SORT_KEYS[key]], reverse=True))
@@ -89,8 +96,7 @@ def main(argv):
         sort_key = argv[i + 1]
         argv = argv[:i] + argv[i + 2:]
     data = load()
-    cities = argv or sorted(data)
-    unknown = [c for c in cities if c not in data]
+    cities, unknown = resolve(argv, data) if argv else (sorted(data), [])
     if unknown:
         sys.exit(f"Unknown city: {', '.join(unknown)}. Known: {', '.join(sorted(data))}")
     stats = {c: summarise(data[c]) for c in cities}

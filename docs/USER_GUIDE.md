@@ -50,6 +50,6 @@ The table appears in the terminal. The same numbers are saved in `output/report.
 | Message | What to do |
 |---|---|
 | `No data yet: run  python get_data.py  first.` | Run `python get_data.py`, then try again |
-| `Unknown city: ...` | Use one of the cities that the message lists, spelt exactly as shown |
+| `Unknown city: ...` | Use one of the cities that the message lists, in any upper or lower case |
 | `--sort needs one of: ...` | Put one of the listed words after `--sort` |
 | `python: command not found` | Type `python3` instead (macOS, Linux) |
