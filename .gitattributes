@@ -1,0 +1,9 @@
+# gitattributes - copy this file into your project as .gitattributes (optional, recommended)
+# It stores text files with LF line endings in the repository, whatever computer they were committed on,
+# so a script committed on Windows still runs on macOS and Linux.
+* text=auto eol=lf
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+*.png binary
+*.jpg binary
+*.gif binary

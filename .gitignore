@@ -1,0 +1,38 @@
+# python.gitignore - copy this file into your project as .gitignore
+# Lines starting with # are comments. A trailing / means "a folder". * matches anything.
+
+# --- Python
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# --- virtual environments (recreate them with: pip install -r requirements.txt)
+.venv/
+venv/
+
+# --- secrets: never commit these (use .env.example with fake values instead)
+.env
+*.pem
+*.key
+secrets.*
+credentials.json
+
+# --- data and trained models: download or regenerate them with a script
+data/
+models/
+*.pth
+*.joblib
+*.ckpt
+*.h5
+
+# --- logs and generated output: the program recreates them
+*.log
+output/
+.cache/
+
+# --- editors and operating systems
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
