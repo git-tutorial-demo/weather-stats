@@ -2,6 +2,7 @@
 
     python weather_stats.py                 all cities
     python weather_stats.py London Mumbai   only these cities
+    python weather_stats.py --sort rain     wettest city first (also: mean, hottest, coldest, rainy)
 
 Reads data/daily_weather.csv (made by get_data.py). Writes output/report.html and output/summary.json:
 generated files, which are never committed (anyone can regenerate them by running this script).
@@ -17,6 +18,8 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 DATA = HERE / "data" / "daily_weather.csv"
 OUTPUT = HERE / "output"
+SORT_KEYS = {"mean": "mean_c", "hottest": "hottest_c", "coldest": "coldest_c",
+             "rainy": "rainy_days", "rain": "rain_total_mm"}
 
 
 def load(path=DATA):
@@ -43,6 +46,11 @@ def summarise(rows):
         "rainy_days": len(wet),
         "rain_total_mm": round(sum(r["rain_mm"] for r in rows)),
     }
+
+
+def sort_stats(stats, key):
+    """The same statistics, largest value of SORT_KEYS[key] first."""
+    return dict(sorted(stats.items(), key=lambda item: item[1][SORT_KEYS[key]], reverse=True))
 
 
 def table(stats):
@@ -73,12 +81,21 @@ td:first-child,th:first-child{{text-align:left}}</style></head>
 def main(argv):
     if not DATA.exists():
         sys.exit("No data yet: run  python get_data.py  first.")
+    sort_key = None
+    if "--sort" in argv:
+        i = argv.index("--sort")
+        if i + 1 >= len(argv) or argv[i + 1] not in SORT_KEYS:
+            sys.exit(f"--sort needs one of: {', '.join(SORT_KEYS)}")
+        sort_key = argv[i + 1]
+        argv = argv[:i] + argv[i + 2:]
     data = load()
     cities = argv or sorted(data)
     unknown = [c for c in cities if c not in data]
     if unknown:
         sys.exit(f"Unknown city: {', '.join(unknown)}. Known: {', '.join(sorted(data))}")
     stats = {c: summarise(data[c]) for c in cities}
+    if sort_key:
+        stats = sort_stats(stats, sort_key)
     print(table(stats))
     OUTPUT.mkdir(exist_ok=True)
     (OUTPUT / "summary.json").write_text(json.dumps(stats, indent=2), encoding="utf-8")

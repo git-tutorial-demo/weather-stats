@@ -4,7 +4,7 @@
 """
 import unittest
 
-from weather_stats import report_html, summarise, table
+from weather_stats import report_html, sort_stats, summarise, table
 
 ROWS = [
     {"date": "2025-01-01", "city": "Testville", "t_min": -2.0, "t_max": 4.0, "rain_mm": 0.0},
@@ -33,6 +33,13 @@ class OutputTest(unittest.TestCase):
         stats = {"Testville": summarise(ROWS), "A<B": summarise(ROWS)}
         self.assertIn("Testville", table(stats))
         self.assertIn("A&lt;B", report_html(stats))      # city names are escaped in the HTML
+
+
+class SortTest(unittest.TestCase):
+    def test_sort_by_rain_puts_the_wettest_city_first(self):
+        dry = [dict(r, rain_mm=0.0) for r in ROWS]
+        stats = {"Dryville": summarise(dry), "Testville": summarise(ROWS)}
+        self.assertEqual(list(sort_stats(stats, "rain")), ["Testville", "Dryville"])
 
 
 if __name__ == "__main__":
